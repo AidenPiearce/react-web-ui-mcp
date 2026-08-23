@@ -122,7 +122,8 @@ class MCPClient {
     };
 
     const headers = {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Accept': 'application/json, text/event-stream'
     };
 
     // Add session ID if we have one
@@ -130,7 +131,6 @@ class MCPClient {
       headers['Mcp-Session-Id'] = this.sessionId;
     }
 
-    // Add auth token if available
     const authToken = import.meta.env.VITE_MCP_AUTH_TOKEN;
     if (authToken) {
       headers['Authorization'] = `Bearer ${authToken}`;
