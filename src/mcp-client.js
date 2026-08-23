@@ -125,23 +125,28 @@ class MCPClient {
       'Content-Type': 'application/json'
     };
 
+    // Add session ID if we have one
     if (this.sessionId) {
       headers['Mcp-Session-Id'] = this.sessionId;
     }
 
+    // Add auth token if available
     const authToken = import.meta.env.VITE_MCP_AUTH_TOKEN;
     if (authToken) {
       headers['Authorization'] = `Bearer ${authToken}`;
     }
 
-    await fetch(`${this.baseUrl}/mcp`, {
+    const response = await fetch(`${this.baseUrl}/mcp`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(this.sessionId && { 'Mcp-Session-Id': this.sessionId })
-      },
+      headers,
       body: JSON.stringify(payload)
     });
+
+    // 202 Accepted is the normal response for notifications
+    if (!response.ok && response.status !== 202) {
+      const errorText = await response.text();
+      throw new Error(`MCP notification failed: ${response.status} ${errorText}`);
+    }
   }
 
   // List available tools
