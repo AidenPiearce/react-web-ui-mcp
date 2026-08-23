@@ -1,3 +1,5 @@
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import robotImage from '../assets/robot.png'
 import userImage from '../assets/user.png'
 import './ChatMessage.css'
@@ -5,17 +7,6 @@ import './ChatMessage.css'
 
 
 export function ChatMessage({ message, sender, time }) {
-  /* const { message, sender } = props; */
-
-  /* 
-  if (sender === 'robot') {
-    return (
-      <div>
-        <img src="images/robot.png" width="50" />
-        {message}
-      </div>
-    )
-  } */
   return (
     <div className={
       sender === 'user'
@@ -27,9 +18,19 @@ export function ChatMessage({ message, sender, time }) {
         <img src={robotImage} className="chat-message-profile" />
       )}
 
-      <div className="chat-messages-text" dir="auto">{message}
+      <div className="chat-messages-text" dir="auto">
+        {typeof message === 'string' && sender !== 'user' ? (
+          <div className="markdown-body">
+            <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              {message}
+            </ReactMarkdown>
+          </div>
+        ) : (
+          message
+        )}
         <div className="time">{time}</div>
       </div>
+
 
 
 
