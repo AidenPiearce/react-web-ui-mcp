@@ -36,18 +36,22 @@ body {
   overflow-y: auto;
   scrollbar-width: none;
   padding: 5px 0;
+  direction: rtl;
 }
 
+/* NOTE: container is RTL, so flex-start = right side, flex-end = left side.
+   Values are swapped relative to a normal LTR chat to keep the usual look:
+   user messages on the right, robot on the left. */
 .chat-message-user {
   display: flex;
-  justify-content: flex-end;
+  justify-content: flex-start; /* RTL: right side */
   align-items: flex-start;
   margin-bottom: 10px;
 }
 
 .chat-message-robot {
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end; /* RTL: left side */
   align-items: flex-start;
   margin-bottom: 10px;
 }
@@ -73,7 +77,7 @@ body {
   font-size: 12px;
   color: grey;
   margin-top: 5px;
-  margin-right: 5px;
+  margin-inline-start: 5px;
 }
 
 

@@ -88,11 +88,13 @@ export function ChatInput({ chatMessages, setChatMessages }) {
         }
       ]);
     } catch (error) {
+      // Never show raw LLM errors to users
       console.error('MCP ask error:', error);
       setChatMessages([
         ...newChatMessages,
         {
-          message: `Error: ${error.message}. Please try again.`,
+          message:
+            "Sorry, something went wrong. Please try again in a moment.\nمتاسفم، مشکلی پیش آمد. لطفاً چند لحظه بعد دوباره تلاش کن.",
           sender: 'robot',
           id: crypto.randomUUID(),
           time: dayjs().format('h:mm a'),

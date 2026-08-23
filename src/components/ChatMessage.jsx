@@ -27,7 +27,7 @@ export function ChatMessage({ message, sender, time }) {
         <img src={robotImage} className="chat-message-profile" />
       )}
 
-      <div className="chat-messages-text" >{message}
+      <div className="chat-messages-text" dir="auto">{message}
         <div className="time">{time}</div>
       </div>
 
