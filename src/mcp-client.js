@@ -183,6 +183,32 @@ class MCPClient {
   async reindex(force = false) {
     return this.callTool('reindex', { force });
   }
+
+  // Ask the web-gateway (Gemini + notes tools) for a composed answer
+  async ask(question, sessionId) {
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    };
+
+    const authToken = import.meta.env.VITE_MCP_AUTH_TOKEN;
+    if (authToken) {
+      headers['Authorization'] = `Bearer ${authToken}`;
+    }
+
+    const response = await fetch(`${this.baseUrl}/ask`, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({ question, session_id: sessionId })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Ask failed: ${response.status} ${errorText}`);
+    }
+
+    return response.json(); // { answer, session_id }
+  }
 }
 
 // Export singleton instance

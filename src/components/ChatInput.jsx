@@ -67,24 +67,17 @@ export function ChatInput({ chatMessages, setChatMessages }) {
 
     try {
       const client = getMCPClient();
-      const result = await client.searchNotes(userMessage, 5);
-      
-      // Extract text content from result
-      let responseText = '';
-      if (result && result.content) {
-        // MCP tool result format: { content: [{ type: 'text', text: '...' }] }
-        const textContent = result.content
-          .filter(c => c.type === 'text')
-          .map(c => c.text)
-          .join('\n\n');
-        responseText = textContent || 'No results found.';
-      } else if (typeof result === 'string') {
-        responseText = result;
-      } else {
-        responseText = 'No results found.';
+
+      // Persistent session so follow-up questions keep context
+      let sessionId = localStorage.getItem('chatSessionId');
+      if (!sessionId) {
+        sessionId = crypto.randomUUID();
+        localStorage.setItem('chatSessionId', sessionId);
       }
 
-      // Replace loading with actual response
+      const data = await client.ask(userMessage, sessionId);
+      const responseText = (data.answer || '').trim() || 'No answer received.';
+
       setChatMessages([
         ...newChatMessages,
         {
@@ -95,7 +88,7 @@ export function ChatInput({ chatMessages, setChatMessages }) {
         }
       ]);
     } catch (error) {
-      console.error('MCP search error:', error);
+      console.error('MCP ask error:', error);
       setChatMessages([
         ...newChatMessages,
         {
