@@ -33,12 +33,6 @@ class MCPClient {
       headers['Mcp-Session-Id'] = this.sessionId;
     }
 
-    // Add auth token if available
-    const authToken = import.meta.env.VITE_MCP_AUTH_TOKEN;
-    if (authToken) {
-      headers['Authorization'] = `Bearer ${authToken}`;
-    }
-
     const response = await fetch(`${this.baseUrl}/mcp`, {
       method: 'POST',
       headers,
@@ -131,11 +125,6 @@ class MCPClient {
       headers['Mcp-Session-Id'] = this.sessionId;
     }
 
-    const authToken = import.meta.env.VITE_MCP_AUTH_TOKEN;
-    if (authToken) {
-      headers['Authorization'] = `Bearer ${authToken}`;
-    }
-
     const response = await fetch(`${this.baseUrl}/mcp`, {
       method: 'POST',
       headers,
@@ -190,11 +179,6 @@ class MCPClient {
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     };
-
-    const authToken = import.meta.env.VITE_MCP_AUTH_TOKEN;
-    if (authToken) {
-      headers['Authorization'] = `Bearer ${authToken}`;
-    }
 
     const response = await fetch(`${this.baseUrl}/ask`, {
       method: 'POST',

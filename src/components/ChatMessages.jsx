@@ -1,6 +1,7 @@
 import { ChatMessage } from './ChatMessage.jsx';
 import { useRef, useEffect } from 'react'
 import './ChatMessages.css'
+import background from "../assets/background.jpg";
 
 
 export function ChatMessages({ chatMessages }) {
@@ -22,6 +23,7 @@ export function ChatMessages({ chatMessages }) {
   return (
     <div className="chat-container"
       ref={chatMessagesRef}
+      style={{ backgroundImage: `url(${background})` }}
     >
       {
         chatMessages.map((chatMessage) => {

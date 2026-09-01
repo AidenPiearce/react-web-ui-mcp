@@ -35,7 +35,6 @@ jobs:
         run: npm run build
         env:
           VITE_MCP_URL: ${{ secrets.VITE_MCP_URL }}
-          VITE_MCP_AUTH_TOKEN: ${{ secrets.VITE_MCP_AUTH_TOKEN }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
